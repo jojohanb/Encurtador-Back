@@ -17,3 +17,5 @@
 ## O que falta implementar? RF-02
 => Retornar a legenda 
 => Retornar a contagem de cliques
+
+## O que falta implementar? RF-03
