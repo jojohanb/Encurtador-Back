@@ -6,3 +6,7 @@
 ## Anotações 
 => Instalações feitas ✅
 => CREATE funcionando ✅
+
+## O que falta implementar? RF-01
+=> O banco e o schema não possuem campo para legenda
+=> Não possuimos uma validação de URL
