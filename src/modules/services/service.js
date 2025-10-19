@@ -62,11 +62,8 @@ export const excluirUrlService = async (code) => {
 };
 
 
-// /**
-//  * Redireciona uma URL pelo código e incrementa clicks
-//  */
-// export const redirecionarService = async (code) => {
-//   const registro = await UrlRepository.incrementarClicks(code);
-//   if (!registro) throw new Error('URL não encontrada.');
-//   return registro.originalUrl;
-// };
+export const redirecionarService = async (code) => {
+  const registro = await UrlRepository.incrementarClicks(code);
+  if (!registro) throw new Error('URL não encontrada.');
+  return registro.originalUrl;
+};

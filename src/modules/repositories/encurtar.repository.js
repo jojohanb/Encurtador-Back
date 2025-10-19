@@ -74,6 +74,16 @@ excluir: async (shortCode) => {
 
   return result;
 },
+
+incrementarClicks: async (shortCode) => {
+  const [registro] = await db
+    .update(urls)
+    .set({ clicks: db.raw('clicks + 1') })
+    .where(eq(urls.shortCode, shortCode))
+    .returning();
+  return registro;
+},
+
 }
 
 

@@ -29,3 +29,5 @@
 # Como utilizar o drizzle-kit?
 => Para sincronizar o bd com novas colunas 
 "npx drizzle-kit push"
+"npx drizzle-kit migrate"
+

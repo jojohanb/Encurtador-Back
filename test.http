@@ -3,7 +3,7 @@ POST http://localhost:3333/api/links
 Content-Type: application/json
 
 {
-  "originalUrl": "https://www.app.com"
+  "originalUrl": "https://www.whats.com"
 }
 
 ### Listar URLs

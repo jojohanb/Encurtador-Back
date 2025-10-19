@@ -1,4 +1,4 @@
-import { criarUrlService, listarUrlsService, editarUrlService, excluirUrlService } from '../services/service.js';
+import { criarUrlService, listarUrlsService, editarUrlService, excluirUrlService, redirecionarService } from '../services/service.js';
 
 export const criarUrl = async (request, reply) => {
   try {
@@ -60,5 +60,15 @@ export const excluirUrl = async (request, reply) => {
     console.error('Erro ao excluir URL:', error);
     const status = error.message === 'URL não encontrada.' ? 404 : 500;
     return reply.status(status).send({ error: error.message });
+  }
+};
+
+export const redirecionar = async (request, reply) => {
+  try {
+    const { code } = request.params;
+    const urlOriginal = await redirecionarService(code);
+    return reply.redirect(302, urlOriginal);
+  } catch (error) {
+    return reply.status(404).send({ error: 'URL não encontrada.' });
   }
 };
