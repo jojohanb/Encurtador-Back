@@ -1,10 +1,10 @@
-import 'dotenv/config';
+require('dotenv').config(); // carrega o .env
 
-export default {
+module.exports = {
   dialect: 'postgresql',
-  out: './drizzle', // Onde as migrations serão salvas
-  schema: './src/infra/db/schema.js', // Onde seu schema está
+  out: './drizzle', // pasta onde serão salvas as migrations
+  schema: './src/infra/db/schema.js', // caminho para o schema
   dbCredentials: {
-    url: process.env.DATABASE_URL, // Pega do .env
+    url: process.env.DATABASE_URL, // pega do .env
   },
 };

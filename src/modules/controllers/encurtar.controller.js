@@ -1,110 +1,74 @@
-import db from '../db/Connection.js';
-import { urls } from '../db/schema.js';
-import { eq } from 'drizzle-orm';
+import { criarUrlService } from '../services/service.js';
 
-/**
- * Função pra gerar um código de url aleatório
- */
-function gerarCodigo(tamanho = 8) {
-  const caracteres = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  let codigo = '';
-  for (let i = 0; i < tamanho; i++) {
-    const indice = Math.floor(Math.random() * caracteres.length);
-    codigo += caracteres[indice];
-  }
-  return codigo;
-}
-
-export const criarUrl = async (req, res) => {
+export const criarUrl = async (request, reply) => {
   try {
-    const { originalUrl } = req.body;
+    const { originalUrl } = request.body;
+    const novaUrl = await criarUrlService(originalUrl);
 
-    if (!originalUrl) {
-      return res.status(400).json({ error: 'A URL original é obrigatória.' });
-    }
-    
-    // Gera um código único       
-    let shortCode;
-    let existente;
-    do {
-      shortCode = gerarCodigo(8);
-      [existente] = await db.select().from(urls).where(eq(urls.shortCode, shortCode)).limit(1);
-    } while (existente);
-
-    // Salva no banco
-    const [novaUrl] = await db
-      .insert(urls)
-      .values({
-        originalUrl,
-        shortCode,
-        createdAt: new Date(),
-      })
-      .returning();
-
-    res.status(201).json({
+    return reply.status(201).send({
       message: 'URL encurtada com sucesso!',
       data: novaUrl,
     });
   } catch (error) {
     console.error('Erro ao encurtar URL:', error);
-    res.status(500).json({ error: 'Erro interno do servidor.' });
+    return reply.status(400).send({ error: error.message });
   }
 };
 
-/**
- * Redireciona uma URL curta para a original
- */
-export const redirecionar = async (req, res) => {
-  try {
-    const { code } = req.params;
+// /**
+//  * Redireciona uma URL curta para a original e incrementa clicks
+//  */
+// export const redirecionar = async (request, reply) => {
+//   try {
+//     const { code } = request.params;
 
-    const [registro] = await db
-      .select()
-      .from(urls)
-      .where(eq(urls.shortCode, code))
-      .limit(1);
+//     // Atualiza o clicks e retorna a URL original
+//     const [registro] = await db
+//       .update(urls)
+//       .set({ clicks: db.raw('clicks + 1') })
+//       .where(eq(urls.shortCode, code))
+//       .returning();
 
-    if (!registro) {
-      return res.status(404).json({ error: 'URL não encontrada.' });
-    }
+//     if (!registro) {
+//       return reply.status(404).send({ error: 'URL não encontrada.' });
+//     }
 
-    // Redireciona para a URL original
-    res.redirect(registro.originalUrl);
-  } catch (error) {
-    console.error('Erro ao redirecionar:', error);
-    res.status(500).json({ error: 'Erro interno do servidor.' });
-  }
-};
+//     return reply.redirect(registro.originalUrl);
+//   } catch (error) {
+//     console.error('Erro ao redirecionar:', error);
+//     return reply.status(500).send({ error: 'Erro interno do servidor.' });
+//   }
+// };
 
-/**
- * Lista todas as URLs encurtadas
- */
-export const listarUrls = async (req, res) => {
-  try {
-    const lista = await db.select().from(urls);
-    res.json(lista);
-  } catch (error) {
-    console.error('Erro ao listar URLs:', error);
-    res.status(500).json({ error: 'Erro interno do servidor.' });
-  }
-};
+// /**
+//  * Lista todas as URLs encurtadas
+//  */
+// export const listarUrls = async (request, reply) => {
+//   try {
+//     const lista = await db.select().from(urls);
+//     return reply.send(lista);
+//   } catch (error) {
+//     console.error('Erro ao listar URLs:', error);
+//     return reply.status(500).send({ error: 'Erro interno do servidor.' });
+//   }
+// };
 
-/**
- * Exclui uma URL pelo código
- */
-export const excluirUrl = async (req, res) => {
-  try {
-    const { code } = req.params;
+// /**
+//  * Exclui uma URL pelo código
+//  */
+// export const excluirUrl = async (request, reply) => {
+//   try {
+//     const { code } = request.params;
 
-    const result = await db.delete(urls).where(eq(urls.shortCode, code)).returning();
+//     const result = await db.delete(urls).where(eq(urls.shortCode, code)).returning();
 
-    if (result.length === 0) {
-      return res.status(404).json({ error: 'URL não encontrada.' });
-    }
+//     if (result.length === 0) {
+//       return reply.status(404).send({ error: 'URL não encontrada.' });
+//     }
 
-    res.json({ message: 'URL excluída com sucesso.' });
-  } catch (error) {
-    console.error('Erro ao excluir URL:', error);
-    res.status(500).json({ error: 'Erro interno do servidor.' });
-  }
-};
+//     return reply.send({ message: 'URL excluída com sucesso.' });
+//   } catch (error) {
+//     console.error('Erro ao excluir URL:', error);
+//     return reply.status(500).send({ error: 'Erro interno do servidor.' });
+//   }
+// };

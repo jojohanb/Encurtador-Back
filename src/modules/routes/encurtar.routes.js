@@ -1,11 +1,15 @@
-import express from 'express';
-import { criarUrl, redirecionar, listarUrls, excluirUrl } from '../controllers/encurta.controller.js';
+// // src/modules/routes/encurtar.routes.js
+// import { criarUrl, redirecionar, listarUrls, excluirUrl } from '../controllers/encurtar.controller.js';
 
-const router = express.Router();
+// export default async function (fastify) {
+//   fastify.post('/encurtar', criarUrl);
+//   fastify.get('/urls', listarUrls);
+//   fastify.get('/:code', redirecionar);
+//   fastify.delete('/:code', excluirUrl);
+// }
+import { criarUrl } from '../controllers/encurtar.controller.js';
 
-router.post('/encurtar', criarUrl);
-router.get('/urls', listarUrls);
-router.get('/:code', redirecionar);
-router.delete('/:code', excluirUrl);
+export default async function (fastify) {
+  fastify.post('/links', criarUrl);
+}
 
-export default router;

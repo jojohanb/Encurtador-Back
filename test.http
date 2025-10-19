@@ -1,0 +1,7 @@
+### Criar URL
+POST http://localhost:3333/api/links
+Content-Type: application/json
+
+{
+  "originalUrl": "https://www.google.com"
+}
