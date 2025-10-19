@@ -1,7 +1,18 @@
 import Fastify from 'fastify';
+import cors from "@fastify/cors";
 import encurtarRoutes from './modules/routes/encurtar.routes.js';
+import db from "./infra/connection.js";
 
 const fastify = Fastify({ logger: true });
+
+await fastify.register(cors, { origin: "*" });
+// Testar conexão com o banco
+try {
+  await db.execute`SELECT 1`;
+  console.log("✅ Conexão com o banco bem-sucedida!");
+} catch (err) {
+  console.error("❌ Erro ao conectar ao banco:", err);
+}
 
 fastify.register(encurtarRoutes, { prefix: '/api' });
 
