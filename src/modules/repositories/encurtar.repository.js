@@ -85,13 +85,3 @@ incrementarClicks: async (shortCode) => {
 },
 
 }
-
-
-
-//   /**
-//    * Busca uma URL pelo shortCode
-//    */
-//   buscarPorCodigo: async (shortCode) => {
-//     const [registro] = await db.select().from(urls).where(eq(urls.shortCode, shortCode)).limit(1);
-//     return registro;
-//   },
