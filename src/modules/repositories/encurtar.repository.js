@@ -29,9 +29,39 @@ export const UrlRepository = {
 
   //Lista todas as URLs
   listarTodas: async () => {
-    return await db.select().from(urls);
+    return await db.select({
+      id: urls.id,
+      legenda: urls.legenda,
+      originalUrl: urls.originalUrl,
+      shortCode: urls.shortCode,
+      clicks: urls.clicks,
+      createdAt: urls.createdAt,
+      updatedAt: urls.updatedAt,
+    }).from(urls);
   },
-};
+    //Atualizar
+editar: async (id, { legenda, originalUrl }) => {
+  const [atualizado] = await db
+    .update(urls)
+    .set({
+      legenda,
+      originalUrl,
+      updatedAt: new Date(),
+    })
+    .where(eq(urls.id, id))
+    .returning({
+      id: urls.id,
+      legenda: urls.legenda,
+      originalUrl: urls.originalUrl,
+      shortCode: urls.shortCode,
+      createdAt: urls.createdAt,
+      updatedAt: urls.updatedAt,
+    });
+
+  return atualizado;
+},
+}
+
 
 //   /**
 //    * Busca uma URL pelo shortCode
@@ -41,19 +71,8 @@ export const UrlRepository = {
 //     return registro;
 //   },
 
-//   /**
-//    * Atualiza a contagem de clicks e retorna a URL
-//    */
-//   incrementarClicks: async (shortCode) => {
-//     const [registro] = await db
-//       .update(urls)
-//       .set({ clicks: db.raw('clicks + 1') })
-//       .where(eq(urls.shortCode, shortCode))
-//       .returning();
-//     return registro;
-//   },
 
-//   /**
+  /**
 //    * Exclui uma URL pelo shortCode
 //    */
 //   excluir: async (shortCode) => {

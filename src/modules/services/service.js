@@ -10,8 +10,16 @@ function gerarCodigo(tamanho = 8) {
   return codigo;
 };
 
+
+
 export const criarUrlService = async (originalUrl) => {
   if (!originalUrl) throw new Error('A URL original é obrigatória.');
+
+   try {
+    new URL(originalUrl);
+  } catch {
+    throw new Error('Formato de URL inválido.');
+  }
 
   let shortCode;
   let existe;
@@ -24,9 +32,23 @@ export const criarUrlService = async (originalUrl) => {
   return novaUrl;
 };
 
+
+
 export const listarUrlsService = async () => {
   return await UrlRepository.listarTodas();
 };
+
+export const editarUrlService = async (id, dados) => {
+  if (!dados.originalUrl && !dados.legenda) {
+    throw new Error('É necessário informar pelo menos um campo para atualizar.');
+  }
+
+  const atualizado = await UrlRepository.editar(id, dados);
+  if (!atualizado) throw new Error('URL não encontrada.');
+
+  return atualizado;
+};
+
 
 // /**
 //  * Redireciona uma URL pelo código e incrementa clicks

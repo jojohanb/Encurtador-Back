@@ -1,4 +1,4 @@
-import { criarUrlService, listarUrlsService } from '../services/service.js';
+import { criarUrlService, listarUrlsService, editarUrlService } from '../services/service.js';
 
 export const criarUrl = async (request, reply) => {
   try {
@@ -28,6 +28,23 @@ export const listarUrls = async (request, reply) => {
   }
 };
 
+
+export const editarUrl = async (request, reply) => {
+  try {
+    const { id } = request.params;
+    const { legenda, originalUrl } = request.body;
+
+    const atualizado = await editarUrlService(Number(id), { legenda, originalUrl });
+
+    return reply.send({
+      message: 'URL atualizada com sucesso!',
+      data: atualizado,
+    });
+  } catch (error) {
+    console.error('Erro ao editar URL:', error);
+    return reply.status(400).send({ error: error.message });
+  }
+};
 // /**
 //  * Exclui uma URL pelo código
 //  */

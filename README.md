@@ -18,4 +18,8 @@
 => Retornar a legenda 
 => Retornar a contagem de cliques
 
-## O que falta implementar? RF-03-
+## O que falta implementar? RF-03
+
+# Como utilizar o drizzle-kit?
+=> Para sincronizar o bd com novas colunas 
+"npx drizzle-kit push"
