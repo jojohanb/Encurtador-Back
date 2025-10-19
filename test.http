@@ -3,7 +3,7 @@ POST http://localhost:3333/api/links
 Content-Type: application/json
 
 {
-  "originalUrl": "https://www.X.com"
+  "originalUrl": "https://www.app.com"
 }
 
 ### Listar URLs
@@ -17,3 +17,6 @@ Content-Type: application/json
   "legenda": "Meu site favorito",
   "originalUrl": "https://www.novosite.com"
 }
+
+###Excluir URLs
+DELETE http://localhost:3333/api/links/ygVcqVPE

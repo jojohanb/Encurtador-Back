@@ -12,7 +12,7 @@ function gerarCodigo(tamanho = 8) {
 
 
 
-export const criarUrlService = async (originalUrl) => {
+export const criarUrlService = async (originalUrl, legenda) => {
   if (!originalUrl) throw new Error('A URL original é obrigatória.');
 
    try {
@@ -22,14 +22,20 @@ export const criarUrlService = async (originalUrl) => {
   }
 
   let shortCode;
-  let existe;
-  do {
+   do {
     shortCode = gerarCodigo(8);
-    existe = await UrlRepository.existeCodigo(shortCode);
-  } while (existe);
+  } while (await UrlRepository.existeCodigo(shortCode));
 
-  const novaUrl = await UrlRepository.criar({ originalUrl, shortCode });
-  return novaUrl;
+  return await UrlRepository.criar({ originalUrl, legenda, shortCode });
+
+  // let existe;
+  // do {
+  //   shortCode = gerarCodigo(8);
+  //   existe = await UrlRepository.existeCodigo(shortCode);
+  // } while (existe);
+
+  // const novaUrl = await UrlRepository.criar({ originalUrl, shortCode });
+  // return novaUrl;
 };
 
 
@@ -49,6 +55,12 @@ export const editarUrlService = async (id, dados) => {
   return atualizado;
 };
 
+export const excluirUrlService = async (code) => {
+  const result = await UrlRepository.excluir(code);
+  if (result.length === 0) throw new Error('URL não encontrada.');
+  return true;
+};
+
 
 // /**
 //  * Redireciona uma URL pelo código e incrementa clicks
@@ -57,13 +69,4 @@ export const editarUrlService = async (id, dados) => {
 //   const registro = await UrlRepository.incrementarClicks(code);
 //   if (!registro) throw new Error('URL não encontrada.');
 //   return registro.originalUrl;
-// };
-
-// /**
-//  * Exclui uma URL pelo código
-//  */
-// export const excluirUrlService = async (code) => {
-//   const result = await UrlRepository.excluir(code);
-//   if (result.length === 0) throw new Error('URL não encontrada.');
-//   return true;
 // };

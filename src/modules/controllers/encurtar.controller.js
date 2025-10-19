@@ -1,9 +1,9 @@
-import { criarUrlService, listarUrlsService, editarUrlService } from '../services/service.js';
+import { criarUrlService, listarUrlsService, editarUrlService, excluirUrlService } from '../services/service.js';
 
 export const criarUrl = async (request, reply) => {
   try {
-    const { originalUrl } = request.body;
-    const novaUrl = await criarUrlService(originalUrl);
+    const { originalUrl, legenda } = request.body;
+    const novaUrl = await criarUrlService(originalUrl, legenda);
 
     return reply.status(201).send({
       message: 'URL encurtada com sucesso!',
@@ -45,22 +45,20 @@ export const editarUrl = async (request, reply) => {
     return reply.status(400).send({ error: error.message });
   }
 };
-// /**
-//  * Exclui uma URL pelo código
-//  */
-// export const excluirUrl = async (request, reply) => {
-//   try {
-//     const { code } = request.params;
 
-//     const result = await db.delete(urls).where(eq(urls.shortCode, code)).returning();
 
-//     if (result.length === 0) {
-//       return reply.status(404).send({ error: 'URL não encontrada.' });
-//     }
+//  Exclui uma URL pelo código
 
-//     return reply.send({ message: 'URL excluída com sucesso.' });
-//   } catch (error) {
-//     console.error('Erro ao excluir URL:', error);
-//     return reply.status(500).send({ error: 'Erro interno do servidor.' });
-//   }
-// };
+export const excluirUrl = async (request, reply) => {
+  try {
+    const { code } = request.params;
+
+    await excluirUrlService(code);
+
+    return reply.send({ message: 'URL excluída com sucesso.' });
+  } catch (error) {
+    console.error('Erro ao excluir URL:', error);
+    const status = error.message === 'URL não encontrada.' ? 404 : 500;
+    return reply.status(status).send({ error: error.message });
+  }
+};

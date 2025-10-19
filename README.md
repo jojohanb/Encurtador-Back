@@ -11,14 +11,20 @@
 => Estrutura do BACK ✅
 
 ## O que falta implementar? RF-01
-=> O banco e o schema não possuem campo para legenda
-=> Não possuimos uma validação de URL
+=>  Feito✅
 
 ## O que falta implementar? RF-02
-=> Retornar a legenda 
-=> Retornar a contagem de cliques
+=> Feito ✅
 
 ## O que falta implementar? RF-03
+=> Feito ✅
+
+## O que falta implementar? RF-04
+=> Precisa de alguns ajustes no deletar
+
+## O que falta implementar? RF-05
+=> Precisamos fazer 
+--------------------------------------------------------
 
 # Como utilizar o drizzle-kit?
 => Para sincronizar o bd com novas colunas 

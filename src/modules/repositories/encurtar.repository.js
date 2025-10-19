@@ -4,19 +4,23 @@ import { eq } from 'drizzle-orm';
 
 export const UrlRepository = {
   // Cria uma nova URL encurtada
-  criar: async ({ originalUrl, shortCode }) => {
+  criar: async ({ originalUrl, legenda, shortCode }) => {
     const [novaUrl] = await db
       .insert(urls)
       .values({
         originalUrl,
+        legenda,
         shortCode,
         createdAt: new Date(), 
       })
       .returning({
         id: urls.id,
+        legenda: urls.legenda,
         originalUrl: urls.originalUrl,
         shortCode: urls.shortCode,
+        clicks: urls.clicks,
         createdAt: urls.createdAt,
+        updatedAt: urls.updatedAt,
       });
     return novaUrl;
   },
@@ -60,7 +64,18 @@ editar: async (id, { legenda, originalUrl }) => {
 
   return atualizado;
 },
+
+ //Excluir
+excluir: async (shortCode) => {
+  const result = await db
+    .delete(urls)
+    .where(eq(urls.shortCode, shortCode))
+    .returning(); 
+
+  return result;
+},
 }
+
 
 
 //   /**
@@ -70,21 +85,3 @@ editar: async (id, { legenda, originalUrl }) => {
 //     const [registro] = await db.select().from(urls).where(eq(urls.shortCode, shortCode)).limit(1);
 //     return registro;
 //   },
-
-
-  /**
-//    * Exclui uma URL pelo shortCode
-//    */
-//   excluir: async (shortCode) => {
-//     const result = await db.delete(urls).where(eq(urls.shortCode, shortCode)).returning();
-//     return result;
-//   },
-
-//   /**
-//    * Verifica se um shortCode já existe
-//    */
-//   existeCodigo: async (shortCode) => {
-//     const [registro] = await db.select().from(urls).where(eq(urls.shortCode, shortCode)).limit(1);
-//     return !!registro;
-//   }
-// };
