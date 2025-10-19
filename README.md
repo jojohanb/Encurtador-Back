@@ -23,7 +23,7 @@
 => Precisa de alguns ajustes no deletar
 
 ## O que falta implementar? RF-05
-=> Precisamos fazer 
+=> Acho que tá rodando, pelo que conferi ✅
 --------------------------------------------------------
 
 # Como utilizar o drizzle-kit?
