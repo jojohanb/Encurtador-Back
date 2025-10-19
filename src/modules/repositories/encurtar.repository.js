@@ -2,35 +2,15 @@ import db from '../../infra/connection.js';
 import { urls } from '../../infra/db/schema.js';
 import { eq } from 'drizzle-orm';
 
-// export const UrlRepository = {
-//   // Cria uma nova URL encurtada
-//   criar: async ({ originalUrl, shortCode }) => {
-//     const [novaUrl] = await db
-//       .insert(urls)
-//       .values({
-//         originalUrl,
-//         shortCode,
-//         clicks: 0,
-//         createdAt: new Date(),
-//       })
-//       .returning();
-//     return novaUrl;
-//   },
-
-//   // Verifica se um shortCode já existe
-//   existeCodigo: async (shortCode) => {
-//     const [registro] = await db.select().from(urls).where(eq(urls.shortCode, shortCode)).limit(1);
-//     return !!registro;
-//   }
-// };
 export const UrlRepository = {
+  // Cria uma nova URL encurtada
   criar: async ({ originalUrl, shortCode }) => {
     const [novaUrl] = await db
       .insert(urls)
       .values({
         originalUrl,
         shortCode,
-        createdAt: new Date(), // só isso
+        createdAt: new Date(), 
       })
       .returning({
         id: urls.id,
@@ -40,20 +20,18 @@ export const UrlRepository = {
       });
     return novaUrl;
   },
-
+  
+  // Verifica se um shortCode já existe
   existeCodigo: async (shortCode) => {
     const [registro] = await db.select().from(urls).where(eq(urls.shortCode, shortCode)).limit(1);
     return !!registro;
-  }
+  },
+
+  //Lista todas as URLs
+  listarTodas: async () => {
+    return await db.select().from(urls);
+  },
 };
-
-
-//   /**
-//    * Lista todas as URLs
-//    */
-//   listarTodas: async () => {
-//     return await db.select().from(urls);
-//   },
 
 //   /**
 //    * Busca uma URL pelo shortCode

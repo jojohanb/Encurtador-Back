@@ -6,7 +6,14 @@
 ## Anotações 
 => Instalações feitas ✅
 => CREATE funcionando ✅
+=> LISTAR funcionando ✅
+=> REACT feito ✅
+=> Estrutura do BACK ✅
 
 ## O que falta implementar? RF-01
 => O banco e o schema não possuem campo para legenda
 => Não possuimos uma validação de URL
+
+## O que falta implementar? RF-02
+=> Retornar a legenda 
+=> Retornar a contagem de cliques

@@ -8,7 +8,7 @@ function gerarCodigo(tamanho = 8) {
     codigo += caracteres[indice];
   }
   return codigo;
-}
+};
 
 export const criarUrlService = async (originalUrl) => {
   if (!originalUrl) throw new Error('A URL original é obrigatória.');
@@ -24,12 +24,9 @@ export const criarUrlService = async (originalUrl) => {
   return novaUrl;
 };
 
-// /**
-//  * Lista todas as URLs
-//  */
-// export const listarUrlsService = async () => {
-//   return await UrlRepository.listarTodas();
-// };
+export const listarUrlsService = async () => {
+  return await UrlRepository.listarTodas();
+};
 
 // /**
 //  * Redireciona uma URL pelo código e incrementa clicks

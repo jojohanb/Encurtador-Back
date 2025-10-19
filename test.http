@@ -3,5 +3,8 @@ POST http://localhost:3333/api/links
 Content-Type: application/json
 
 {
-  "originalUrl": "https://www.google.com"
+  "originalUrl": "https://www.tiktok.com"
 }
+
+### Listar URLs
+GET http://localhost:3333/api/links

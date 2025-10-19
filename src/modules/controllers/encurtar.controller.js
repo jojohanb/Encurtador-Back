@@ -1,4 +1,4 @@
-import { criarUrlService } from '../services/service.js';
+import { criarUrlService, listarUrlsService } from '../services/service.js';
 
 export const criarUrl = async (request, reply) => {
   try {
@@ -15,43 +15,18 @@ export const criarUrl = async (request, reply) => {
   }
 };
 
-// /**
-//  * Redireciona uma URL curta para a original e incrementa clicks
-//  */
-// export const redirecionar = async (request, reply) => {
-//   try {
-//     const { code } = request.params;
+export const listarUrls = async (request, reply) => {
+  try {
+    const lista =  await listarUrlsService();
+    return reply.send(lista);
+  } catch (error) {
+    // console.error('Erro ao listar URLs:', error);
+    // return reply.status(500).send({ error: 'Erro interno do servidor.' });
+    console.error('Erro ao listar URLs:', error.message);
+    return reply.status(500).send({ error: error.message });
 
-//     // Atualiza o clicks e retorna a URL original
-//     const [registro] = await db
-//       .update(urls)
-//       .set({ clicks: db.raw('clicks + 1') })
-//       .where(eq(urls.shortCode, code))
-//       .returning();
-
-//     if (!registro) {
-//       return reply.status(404).send({ error: 'URL não encontrada.' });
-//     }
-
-//     return reply.redirect(registro.originalUrl);
-//   } catch (error) {
-//     console.error('Erro ao redirecionar:', error);
-//     return reply.status(500).send({ error: 'Erro interno do servidor.' });
-//   }
-// };
-
-// /**
-//  * Lista todas as URLs encurtadas
-//  */
-// export const listarUrls = async (request, reply) => {
-//   try {
-//     const lista = await db.select().from(urls);
-//     return reply.send(lista);
-//   } catch (error) {
-//     console.error('Erro ao listar URLs:', error);
-//     return reply.status(500).send({ error: 'Erro interno do servidor.' });
-//   }
-// };
+  }
+};
 
 // /**
 //  * Exclui uma URL pelo código
